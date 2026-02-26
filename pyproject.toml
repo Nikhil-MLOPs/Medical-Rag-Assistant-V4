@@ -1,0 +1,26 @@
+[project]
+name = "medical-rag-assistant-v4"
+version = "4.0.0"
+description = "A high-performance Retrieval-Augmented Generation (RAG) system designed for clinical accuracy. This assistant uses a fixed, PDF textbook-based knowledge base to provide grounded, traceable medical answers while eliminating LLM hallucinations."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dagshub>=0.6.8",
+    "dvc[s3]>=3.66.1",
+    "fastapi>=0.133.1",
+    "gradio>=6.6.0",
+    "langchain>=1.2.10",
+    "langchain-chroma>=1.1.0",
+    "langchain-community>=0.4.1",
+    "langchain-huggingface>=1.2.0",
+    "langchain-ollama>=1.0.1",
+    "langsmith>=0.7.7",
+    "mlflow>=3.10.0",
+    "pydantic>=2.12.5",
+    "pydantic-settings>=2.13.1",
+    "pymupdf>=1.27.1",
+    "pytest>=9.0.2",
+    "pytest-mock>=3.15.1",
+    "sentence-transformers>=5.2.3",
+    "uvicorn>=0.41.0",
+]

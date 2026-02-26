@@ -1,0 +1,1 @@
+A high-performance Retrieval-Augmented Generation (RAG) system designed for clinical accuracy. This assistant uses a fixed, PDF textbook-based knowledge base to provide grounded, traceable medical answers while eliminating LLM hallucinations.
