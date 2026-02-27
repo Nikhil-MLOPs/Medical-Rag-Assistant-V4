@@ -12,7 +12,7 @@ jobs:
 
     # CRITICAL: job-level env
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.DAGSHUB_USERNAME }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.DAGSHUB_TOKEN }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.DAGSHUB_TOKEN }}
 
     steps:
