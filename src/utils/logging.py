@@ -6,9 +6,9 @@ LOG_DIR = Path('logs')
 LOG_DIR.mkdir(exist_ok = True)
 
 # Function to create logging
-def setup_logging(name: str) -> logging.logger:
-    logger = logging.get_logger(name) # get_logger -> creates a logger.
-    logger.set_level(logging.INFO) # minimum level this logger will process is INFO
+def setup_logging(name: str) -> logging.Logger:
+    logger = logging.getLogger(name) # get_logger -> creates a logger.
+    logger.setLevel(logging.INFO) # minimum level this logger will process is INFO
 
     formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s") # decides how each log line will look
 

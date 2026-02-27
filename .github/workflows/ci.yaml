@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # CRITICAL: job-level env
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.DAGSHUB_USERNAME }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.DAGSHUB_TOKEN }}
+
+    steps:
+      # Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Install uv
+      - name: Install uv
+        run: |
+          python -m pip install --upgrade pip
+          pip install uv
+
+      # Install project deps
+      - name: Install dependencies
+        run: |
+          set -e
+          uv venv
+          uv sync
+          uv pip install "dvc[s3]"
+
+      # Pull DVC data safely
+      - name: Pull DVC data (optional)
+        run: |
+          echo "Attempting DVC pull (safe mode)"
+          uv run dvc pull || echo "Skipping DVC pull"
+
+      # Run tests
+      - name: Run tests
+        run: |
+          uv run pytest

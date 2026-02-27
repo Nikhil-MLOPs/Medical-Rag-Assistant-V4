@@ -1,0 +1,9 @@
+# Phase-1: Ingestion
+stages:
+  ingestion:
+    cmd: python -m src.ingestion.ingest
+    deps:
+      - src/ingestion/ingest.py
+      - data/raw
+    outs:
+      - data/processed/pages/pages.jsonl
