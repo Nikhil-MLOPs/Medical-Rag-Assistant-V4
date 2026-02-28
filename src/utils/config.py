@@ -48,3 +48,13 @@ IngestionConfig(...), Pydantic (the BaseModel) does these things automatically -
 - Creates a real object of type IngestionConfig
 - If anything is wrong (missing field, wrong type, negative pages, etc.), it raises a clear ValidationError immediately
 """
+
+# Phase-2: Cleaning Configuration
+
+class CleaningConfig(BaseModel):
+    chunk_size: int = Field(description="Size of each chunk in characters")
+    chunk_overlap: int = Field(description="Number of characters to overlap in consecutive chunks")
+
+
+def load_cleaning_config(path: str) -> CleaningConfig:
+    return CleaningConfig(**load_yaml(path))

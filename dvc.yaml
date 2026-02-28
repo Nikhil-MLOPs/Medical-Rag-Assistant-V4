@@ -7,3 +7,12 @@ stages:
       - data/raw
     outs:
       - data/processed/pages/pages.jsonl
+
+  # Phase-2: Cleaning + Chunking
+  cleaning:
+    cmd: python -m src.cleaning.clean
+    deps:
+      - src/cleaning/clean.py
+      - data/processed/pages/pages.jsonl
+    outs:
+      - data/processed/chunks/chunks.jsonl
