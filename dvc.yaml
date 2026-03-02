@@ -16,3 +16,13 @@ stages:
       - data/processed/pages/pages.jsonl
     outs:
       - data/processed/chunks/chunks.jsonl
+
+  # Phase-3: Embedding
+  embeddings:
+    cmd: python -m src.embeddings.embed
+    deps:
+      - src/embeddings/embed.py
+      - data/processed/chunks/chunks.jsonl
+    outs:
+      - data/embeddings/embeddings.npy
+      - data/embeddings/metadata.json

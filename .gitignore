@@ -43,3 +43,7 @@ mlruns/
 /config.local
 /tmp
 /cache
+
+# Ignore generated embeddings and metadata
+/embeddings.npy
+/metadata.json

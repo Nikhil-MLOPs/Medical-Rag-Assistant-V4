@@ -1,0 +1,4 @@
+model_name: sentence-transformers/all-MiniLM-L6-v2
+batch_size: 32
+input_chunks_path: data/processed/chunks/chunks.jsonl
+output_dir: data/embeddings

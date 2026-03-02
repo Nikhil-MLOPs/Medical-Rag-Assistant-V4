@@ -26,10 +26,30 @@ stages:
       size: 16915657
     - path: src/cleaning/clean.py
       hash: md5
-      md5: 78b5f5e10dbe7b23be7eb8ad416d6ed6
-      size: 7794
+      md5: 7115b428b30d1a293415e78c7c020c8b
+      size: 7680
     outs:
     - path: data/processed/chunks/chunks.jsonl
       hash: md5
       md5: 27f572b1b433ed688bada022bb1328d2
       size: 20105673
+  embeddings:
+    cmd: python -m src.embeddings.embed
+    deps:
+    - path: data/processed/chunks/chunks.jsonl
+      hash: md5
+      md5: 27f572b1b433ed688bada022bb1328d2
+      size: 20105673
+    - path: src/embeddings/embed.py
+      hash: md5
+      md5: f0aa99058385546c0ec76aa1df08f318
+      size: 1717
+    outs:
+    - path: data/embeddings/embeddings.npy
+      hash: md5
+      md5: 2d0e18bd4222a2df774e478aaf5d91be
+      size: 36579968
+    - path: data/embeddings/metadata.json
+      hash: md5
+      md5: 6921e3a8081a413f1be63e36187581d6
+      size: 3372044
