@@ -26,3 +26,15 @@ stages:
     outs:
       - data/embeddings/embeddings.npy
       - data/embeddings/metadata.json
+
+  # Phase-4: Vector Store Build
+  vectorstore:
+    cmd: python -m src.embeddings.vectorstore
+    deps:
+      - data/embeddings/embeddings.npy
+      - data/embeddings/metadata.json
+      - data/processed/chunks/chunks.jsonl
+      - src/embeddings/vectorstore.py
+      - configs/vectorstore.yaml
+    outs:
+      - data/chroma_db

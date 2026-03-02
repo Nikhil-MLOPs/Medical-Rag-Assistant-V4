@@ -2660,6 +2660,7 @@ name = "medical-rag-assistant-v4"
 version = "4.0.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "chromadb" },
     { name = "dagshub" },
     { name = "dvc", extra = ["s3"] },
     { name = "fastapi" },
@@ -2683,6 +2684,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "chromadb", specifier = ">=1.5.1" },
     { name = "dagshub", specifier = ">=0.6.8" },
     { name = "dvc", extras = ["s3"], specifier = ">=3.66.1" },
     { name = "fastapi", specifier = ">=0.133.1" },

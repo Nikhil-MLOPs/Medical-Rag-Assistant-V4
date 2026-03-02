@@ -28,6 +28,17 @@ class EmbeddingConfig(BaseModel):
     output_dir: str = Field(description="Directory to store embeddings")
 
 
+# Phase-4: Vector Store Config
+
+class VectorStoreConfig(BaseModel):
+    embeddings_path: str = Field(description="Path to embeddings .npy file")
+    metadata_path: str = Field(description="Path to metadata JSON file")
+    chunks_path: str = Field(description="Path to cleaned chunks JSONL file")
+    persist_directory: str = Field(description="Directory to persist Chroma DB")
+    collection_name: str = Field(description="Chroma collection name")
+    batch_size: int = Field(description="Batch size for vector insertion")
+
+
 # Shared YAML Loader
 
 def load_yaml(path: str) -> dict:
@@ -45,3 +56,7 @@ def load_cleaning_config(path: str) -> CleaningConfig:
 
 def load_embedding_config(path: str) -> EmbeddingConfig:
     return EmbeddingConfig(**load_yaml(path))
+
+
+def load_vectorstore_config(path: str) -> VectorStoreConfig:
+    return VectorStoreConfig(**load_yaml(path))

@@ -42,8 +42,8 @@ stages:
       size: 20105673
     - path: src/embeddings/embed.py
       hash: md5
-      md5: f0aa99058385546c0ec76aa1df08f318
-      size: 1717
+      md5: 61ba6f1f80090c9c36f5721bd84ac3e8
+      size: 1851
     outs:
     - path: data/embeddings/embeddings.npy
       hash: md5
@@ -53,3 +53,32 @@ stages:
       hash: md5
       md5: 6921e3a8081a413f1be63e36187581d6
       size: 3372044
+  vectorstore:
+    cmd: python -m src.embeddings.vectorstore
+    deps:
+    - path: configs/vectorstore.yaml
+      hash: md5
+      md5: b2ef7900b3c8193de54d89e5f12719ab
+      size: 235
+    - path: data/embeddings/embeddings.npy
+      hash: md5
+      md5: 2d0e18bd4222a2df774e478aaf5d91be
+      size: 36579968
+    - path: data/embeddings/metadata.json
+      hash: md5
+      md5: 6921e3a8081a413f1be63e36187581d6
+      size: 3372044
+    - path: data/processed/chunks/chunks.jsonl
+      hash: md5
+      md5: 27f572b1b433ed688bada022bb1328d2
+      size: 20105673
+    - path: src/embeddings/vectorstore.py
+      hash: md5
+      md5: 8139e81443d79aa25216101ce44a61c0
+      size: 2401
+    outs:
+    - path: data/chroma_db
+      hash: md5
+      md5: 22efc1c47a8f9b8621d1850ae2c26797.dir
+      size: 205209208
+      nfiles: 6

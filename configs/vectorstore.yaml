@@ -1,0 +1,7 @@
+embeddings_path: data/embeddings/embeddings.npy
+metadata_path: data/embeddings/metadata.json
+chunks_path: data/processed/chunks/chunks.jsonl
+
+persist_directory: data/chroma_db
+collection_name: document_embeddings
+batch_size: 5000

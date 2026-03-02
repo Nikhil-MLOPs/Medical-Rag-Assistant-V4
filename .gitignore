@@ -47,3 +47,6 @@ mlruns/
 # Ignore generated embeddings and metadata
 /embeddings.npy
 /metadata.json
+
+# Chroma vector store
+data/chroma_db/
