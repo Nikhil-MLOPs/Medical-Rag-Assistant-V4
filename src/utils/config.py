@@ -54,6 +54,16 @@ class RetrievalConfig(BaseModel):
 
     hybrid_alpha: float
 
+# Phase-6: Rag Config
+
+class RagConfig(BaseModel):
+    ollama_model: str
+    temperature: float
+    max_tokens: int
+    use_memory: bool
+    guardrails_enabled: bool
+    explainability_enabled: bool
+
 # Shared YAML Loader
 
 def load_yaml(path: str) -> dict:
@@ -79,3 +89,7 @@ def load_vectorstore_config(path: str) -> VectorStoreConfig:
 
 def load_retrieval_config(path: str) -> RetrievalConfig:
     return RetrievalConfig(**load_yaml(path))
+
+
+def load_rag_config(path: str) -> RagConfig:
+    return RagConfig(**load_yaml(path))
