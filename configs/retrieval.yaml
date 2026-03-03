@@ -1,0 +1,12 @@
+persist_directory: data/chroma_db
+collection_name: document_embeddings
+embedding_model_name: sentence-transformers/all-MiniLM-L6-v2
+reranker_model_name: cross-encoder/ms-marco-MiniLM-L-6-v2
+
+chunks_path: data/processed/chunks/chunks.jsonl
+
+top_k_dense: 10
+top_k_sparse: 10
+top_k_final: 5
+
+hybrid_alpha: 0.7

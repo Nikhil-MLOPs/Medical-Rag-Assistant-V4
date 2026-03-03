@@ -39,6 +39,21 @@ class VectorStoreConfig(BaseModel):
     batch_size: int = Field(description="Batch size for vector insertion")
 
 
+# Phase-5: Retrieval Config
+
+class RetrievalConfig(BaseModel):
+    persist_directory: str
+    collection_name: str
+    embedding_model_name: str
+    reranker_model_name: str
+    chunks_path: str
+
+    top_k_dense: int
+    top_k_sparse: int
+    top_k_final: int
+
+    hybrid_alpha: float
+
 # Shared YAML Loader
 
 def load_yaml(path: str) -> dict:
@@ -60,3 +75,7 @@ def load_embedding_config(path: str) -> EmbeddingConfig:
 
 def load_vectorstore_config(path: str) -> VectorStoreConfig:
     return VectorStoreConfig(**load_yaml(path))
+
+
+def load_retrieval_config(path: str) -> RetrievalConfig:
+    return RetrievalConfig(**load_yaml(path))
