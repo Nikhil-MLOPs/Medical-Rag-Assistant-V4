@@ -1,6 +1,6 @@
-ollama_model: qwen2.5:1.5b
-temperature: 0.2
-max_tokens: 512
+ollama_model: qwen2.5:0.5b
+temperature: 0.1
+max_tokens: 256
 
 use_memory: true
 guardrails_enabled: true

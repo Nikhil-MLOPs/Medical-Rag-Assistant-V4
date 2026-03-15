@@ -1,4 +1,5 @@
 import json
+import re
 from rank_bm25 import BM25Okapi
 from pathlib import Path
 
@@ -25,12 +26,19 @@ class SparseRetriever:
         self.texts = texts
         self.metadatas = metadatas
 
-        tokenized_corpus = [doc.split() for doc in texts]
+        tokenized_corpus = [re.findall(r"\w+", doc.lower()) for doc in texts]
         self.bm25 = BM25Okapi(tokenized_corpus)
 
-    def search(self, query: str, top_k: int):
-        tokenized_query = query.split()
-        scores = self.bm25.get_scores(tokenized_query)
+    def search(self, query: str, top_k: int, topic: str | None = None):
+
+        query_tokens = re.findall(r"\w+", query.lower())
+
+        # If we know the topic, inject it into the query
+        if topic:
+            topic_tokens = re.findall(r"\w+", topic.lower())
+            query_tokens = topic_tokens + query_tokens
+
+        scores = self.bm25.get_scores(query_tokens)
 
         ranked_indices = sorted(
             range(len(scores)),

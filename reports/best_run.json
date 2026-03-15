@@ -1,0 +1,21 @@
+{
+  "run_id": "502222fdc69b4ea7b0a5e0533eae24de",
+  "metrics": {
+    "citation_coverage": 1.0,
+    "recall": 1.0,
+    "precision": 0.4666666666666666,
+    "latency_score": 0.0,
+    "faithfulness": 0.8977302964184982,
+    "answer_relevance": 0.7136019536019537,
+    "latency": 21.26125535964966,
+    "composite_score": 4.669584455616758
+  },
+  "params": {
+    "top_k_final": "3",
+    "top_k_sparse": "2",
+    "temperature": "0.2",
+    "top_k_dense": "4",
+    "hybrid_alpha": "0.8",
+    "reranker_boost": "0.2"
+  }
+}

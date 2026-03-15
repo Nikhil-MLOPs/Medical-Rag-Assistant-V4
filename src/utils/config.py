@@ -64,6 +64,19 @@ class RagConfig(BaseModel):
     guardrails_enabled: bool
     explainability_enabled: bool
 
+# Phase-7: Experiment Config
+
+class ExperimentConfig(BaseModel):
+    golden_dataset_path: str
+    experiment_name: str
+    tracking_uri: str
+    num_trials: int
+
+    search_space: dict
+    metrics_weights: dict
+
+    latency_threshold_seconds: float
+
 # Shared YAML Loader
 
 def load_yaml(path: str) -> dict:
@@ -93,3 +106,7 @@ def load_retrieval_config(path: str) -> RetrievalConfig:
 
 def load_rag_config(path: str) -> RagConfig:
     return RagConfig(**load_yaml(path))
+
+
+def load_experiment_config(path: str) -> ExperimentConfig:
+    return ExperimentConfig(**load_yaml(path))

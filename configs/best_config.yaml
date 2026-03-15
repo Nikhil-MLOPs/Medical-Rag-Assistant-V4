@@ -1,0 +1,6 @@
+hybrid_alpha: '0.8'
+reranker_boost: '0.2'
+temperature: '0.2'
+top_k_dense: '4'
+top_k_final: '3'
+top_k_sparse: '2'

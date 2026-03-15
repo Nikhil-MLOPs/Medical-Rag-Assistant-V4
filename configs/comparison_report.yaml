@@ -1,0 +1,17 @@
+rag:
+  temperature:
+    base: 0.2
+    best: '0.2'
+retrieval:
+  hybrid_alpha:
+    base: 0.7
+    best: '0.8'
+  top_k_dense:
+    base: 10
+    best: '4'
+  top_k_final:
+    base: 5
+    best: '3'
+  top_k_sparse:
+    base: 10
+    best: '2'

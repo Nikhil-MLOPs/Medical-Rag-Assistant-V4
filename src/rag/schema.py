@@ -16,3 +16,4 @@ class RagResponse(BaseModel):
     answer: str
     citations: List[Citation]
     explanation: str | None = None
+    retrieval_time: float | None = None
