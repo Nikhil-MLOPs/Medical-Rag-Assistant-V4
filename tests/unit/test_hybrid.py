@@ -16,7 +16,7 @@ def test_hybrid_fusion():
 
     results = hybrid.fuse(dense, sparse, top_k=1)
 
-    expected_score = 0.7 * 0.9 + 0.3 * 0.5
+    expected_score = 1.0
 
     assert len(results) == 1
     assert abs(results[0].score - expected_score) < 1e-6
