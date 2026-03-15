@@ -1,6 +1,6 @@
 class RagChain:
 
-    def build_prompt(self, query, retrieved_chunks, memory_context):
+    def build_prompt(self, query, retrieved_chunks, memory_context=""):
 
         context_blocks = []
 
