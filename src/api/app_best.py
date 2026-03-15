@@ -7,6 +7,8 @@ from pydantic import BaseModel
 
 from src.rag.rag_service import RagService
 from src.utils.logging import setup_logging
+from dotenv import load_dotenv
+load_dotenv()
 
 
 logger = setup_logging("API_BEST")

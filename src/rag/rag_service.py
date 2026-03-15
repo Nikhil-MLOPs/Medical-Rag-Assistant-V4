@@ -98,6 +98,9 @@ from src.rag.schema import RagResponse, Citation
 from src.rag.query_rewriter import QueryRewriter
 from src.rag.query_intent import detect_section
 
+# Phase-8
+from langsmith import traceable
+
 CONFIG_PATH = Path("configs/rag.yaml")
 
 
@@ -141,6 +144,7 @@ class RagService:
     # -------------------------------------------------
     # Streaming call
     # -------------------------------------------------
+    @traceable(name="rag_stream_pipeline")
     def stream(self, query: str):
 
         if self.guardrails:
@@ -172,8 +176,14 @@ class RagService:
         # -------------------------------------------------
         # QUERY REWRITING
         # -------------------------------------------------
-        history = self.memory.history if self.memory else []
-        rewritten_query = self.rewriter.rewrite(query, history, topic)
+        # history = self.memory.history if self.memory else []
+        # rewritten_query = self.rewriter.rewrite(query, history, topic)
+        @traceable(name="query_rewrite")
+        def _rewrite():
+            history = self.memory.history if self.memory else []
+            return self.rewriter.rewrite(query, history, topic)
+
+        rewritten_query = _rewrite()
 
         # BUILD RETRIEVAL QUERY (Improved Follow-up Grounding)
         # -------------------------------------------------
@@ -214,14 +224,16 @@ class RagService:
         # -------------------------------------------------
         
 
+        @traceable(name="retrieval")
+        def _retrieve():
+            return self.retriever.retrieve(
+                query_for_retrieval,
+                topic=topic,
+                section=section
+            )
+
         start_retrieval = time.time()
-
-        retrieval_response = self.retriever.retrieve(
-            query_for_retrieval,
-            topic=topic,
-            section=section
-        )
-
+        retrieval_response = _retrieve()
         self._retrieval_time = time.time() - start_retrieval
 
         # store retrieval for final response
@@ -230,34 +242,42 @@ class RagService:
         # -------------------------------------------------
         # PROMPT BUILDING
         # -------------------------------------------------
-        prompt = self.chain.build_prompt(
-            query,
-            retrieval_response.results,
-            memory_context,
-        )
+        @traceable(name="prompt_building")
+        def _build_prompt():
+            return self.chain.build_prompt(
+                query,
+                retrieval_response.results,
+                memory_context,
+            )
+
+        prompt = _build_prompt()
 
         # -------------------------------------------------
         # LLM CALL
         # -------------------------------------------------
-        response = self.llm.chat(
-            model=self.cfg.ollama_model,
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are a medical assistant. "
-                        "Answer ONLY using the provided sources. "
-                        "If the answer is not found in the sources, say so."
-                    ),
+        @traceable(name="llm_generation")
+        def _llm_call():
+            return self.llm.chat(
+                model=self.cfg.ollama_model,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a medical assistant. "
+                            "Answer ONLY using the provided sources. "
+                            "If the answer is not found in the sources, say so."
+                        ),
+                    },
+                    {"role": "user", "content": prompt},
+                ],
+                options={
+                    "temperature": self.cfg.temperature,
+                    "num_predict": self.cfg.max_tokens,
                 },
-                {"role": "user", "content": prompt},
-            ],
-            options={
-                "temperature": self.cfg.temperature,
-                "num_predict": self.cfg.max_tokens,
-            },
-            stream=True,
-        )
+                stream=True,
+            )
+
+        response = _llm_call()
 
         collected = ""
 
