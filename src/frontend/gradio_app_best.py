@@ -3,11 +3,11 @@ import requests
 import json
 import uuid
 
-# 🔹 BEST backend runs on different port
-API_URL = "http://127.0.0.1:8001/chat"
+# BEST backend runs on different port
+API_URL = "http://rag-api:8001/chat"
 
 
-# --- THEME SETUP ---
+# THEME SETUP
 custom_theme = gr.themes.Soft(
     primary_hue="cyan",
     secondary_hue="blue",
@@ -23,7 +23,7 @@ custom_theme = gr.themes.Soft(
 )
 
 
-# --- CSS ---
+# CSS
 custom_css = """
 input, textarea {
     color: #ffffff !important;
@@ -81,7 +81,7 @@ def chat_with_backend(message, history, session_id):
             data = json.loads(line.decode())
 
             if "status" in data:
-                yield "Thinking...", session_id
+                yield "Wait!!! Let me think...", session_id
 
             elif "token" in data:
                 answer += data["token"]
@@ -95,7 +95,7 @@ def chat_with_backend(message, history, session_id):
 
                 sources = data.get("sources", [])
 
-                source_block = "\n\n### 📚 Sources:\n"
+                source_block = "\n\n### 📚 Source of Truth:\n"
                 for s in sources:
                     source_block += (
                         f"- [{s['id']}] {s['document']} "
@@ -114,7 +114,7 @@ def chat_with_backend(message, history, session_id):
                 yield final_answer, session_id
 
 
-# --- UI LAYOUT ---
+# UI LAYOUT
 with gr.Blocks() as demo:
 
     session_state = gr.State(None)
@@ -122,7 +122,7 @@ with gr.Blocks() as demo:
     gr.HTML("""
         <div style="text-align: center; padding: 20px;">
             <h1 style="color: #22d3ee; font-weight: 800; font-size: 2.5rem; margin-bottom: 0;">
-                ⚕️ Medical-RAG-Assistant-V4 (MLflow Optimized)
+                ⚕️ Medical-RAG-Assistant-V4
             </h1>
             <p style="color: #94a3b8; font-size: 1.1rem;">
                 Best Configuration Selected via MLflow Experiments
@@ -142,8 +142,8 @@ with gr.Blocks() as demo:
         elem_id="project-specs",
     ):
         gr.Markdown("""
-        ### 🩺 About This Project
-        Production-grade **Medical RAG Assistant** using the **best configuration discovered via MLflow experiments**.
+        ### 🩺 About the Project
+        Production-grade Medical RAG Assistant using the best configuration discovered via MLflow experiments.
 
         ### 🛠️ Tech Stack
         - FastAPI Backend
@@ -154,7 +154,7 @@ with gr.Blocks() as demo:
         - Gradio UI
 
         ### ⚙️ Mode
-        **BEST CONFIG (MLflow Optimized)**
+        BEST CONFIG (MLflow Optimized)
 
         Author: Nikhil Bhardwaj
         """)
@@ -165,4 +165,6 @@ if __name__ == "__main__":
         theme=custom_theme,
         css=custom_css,
         share=True,
+        server_name="0.0.0.0",
+        server_port=7860
     )

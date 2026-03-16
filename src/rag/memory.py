@@ -7,9 +7,8 @@ class ConversationMemory:
         self.history = []
         self.active_topic = None
 
-    # -----------------------------
+
     # Detect topic from user query
-    # -----------------------------
     def detect_topic(self, query: str):
 
         q = query.lower()
@@ -32,9 +31,8 @@ class ConversationMemory:
 
         return topic_map.get(topic, topic)
 
-    # -----------------------------
+
     # Add interaction to memory
-    # -----------------------------
     def add(self, query: str, answer: str, topic: str | None = None):
 
         # detect explicit topic in user query
@@ -52,9 +50,8 @@ class ConversationMemory:
             "answer": answer
         })
 
-    # -----------------------------
+
     # Build context for prompt
-    # -----------------------------
     def get_context(self):
 
         if not self.history:
@@ -76,8 +73,6 @@ class ConversationMemory:
 
         return context.strip()
 
-    # -----------------------------
     # Current active topic
-    # -----------------------------
     def get_active_topic(self):
         return self.active_topic

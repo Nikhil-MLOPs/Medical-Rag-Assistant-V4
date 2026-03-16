@@ -32,7 +32,7 @@ def main():
         "params": best_run.data.params
     }
 
-    # 🔹 Create reports folder if it doesn't exist
+    # Create reports folder if it doesn't exist
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
 
     with open(OUTPUT, "w") as f:

@@ -1,0 +1,32 @@
+services:
+
+  rag-api:
+    build: .
+    container_name: medical-rag-api
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    volumes:
+      - ./configs:/app/configs
+      - ./data:/app/data
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  rag-ui:
+    build: .
+    container_name: medical-rag-ui
+    command: python src/frontend/gradio_app_best.py
+    ports:
+      - "7860:7860"
+    env_file:
+      - .env
+    depends_on:
+      rag-api:
+        condition: service_healthy

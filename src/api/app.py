@@ -33,7 +33,7 @@ def chat(request: ChatRequest):
 
         yield json.dumps({"status": "thinking"}) + "\n"
 
-        # --- Retrieval timing ---
+        # Retrieval timing
         start_retrieval = time.time()
         memory_context = ""
         if rag_service.memory:
@@ -48,7 +48,7 @@ def chat(request: ChatRequest):
         logger.info(f"Retrieved {len(retrieval.results)} chunks")
         logger.info(f"Retrieval Time: {retrieval_time:.2f}s")
 
-        # --- Build prompt ---
+        # Build prompt
         memory_context = ""
         if rag_service.memory:
             memory_context = rag_service.memory.get_context()
@@ -59,7 +59,7 @@ def chat(request: ChatRequest):
             memory_context,
         )
 
-        # --- LLM timing ---
+        # LLM timing
         start_llm = time.time()
 
         stream_response = rag_service.llm.chat(
@@ -85,11 +85,11 @@ def chat(request: ChatRequest):
         logger.info(f"Total Time: {total_time:.2f}s")
         logger.info(f"Answer Length: {len(full_answer)} characters")
 
-        # --- Memory update ---
+        # Memory update
         if rag_service.memory:
             rag_service.memory.add(request.query, full_answer)
 
-        # --- Prepare sources ---
+        # Prepare sources
         sources = []
         for idx, r in enumerate(retrieval.results):
             sources.append({

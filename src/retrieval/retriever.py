@@ -50,11 +50,11 @@ class RetrieverService:
 
     def retrieve(self, query: str, topic: str | None = None, section: str | None = None):
 
-        print("\n================ RETRIEVAL DEBUG ================")
-        print("Incoming query:", query)
-        print("Topic constraint:", topic)
-        print("Section constraint:", section)
-        print("=================================================\n")
+        # print("\n================ RETRIEVAL DEBUG ================")
+        # print("Incoming query:", query)
+        # print("Topic constraint:", topic)
+        # print("Section constraint:", section)
+        # print("=================================================\n")
 
         topic_lower = topic.lower() if topic else None
 
@@ -62,21 +62,21 @@ class RetrieverService:
             query, self.cfg.top_k_dense
         )
 
-        print("\n========== DENSE RESULTS ==========")
-        for i, r in enumerate(dense_results[:5]):
-            print(f"[{i}] score={r.score}")
-            print(r.text[:200])
-            print()
+        # print("\n========== DENSE RESULTS ==========")
+        # for i, r in enumerate(dense_results[:5]):
+        #     print(f"[{i}] score={r.score}")
+        #     print(r.text[:200])
+        #     print()
 
         sparse_results = self.sparse.search(
             query, self.cfg.top_k_sparse, topic
         )
 
-        print("\n========== SPARSE RESULTS ==========")
-        for i, r in enumerate(sparse_results[:5]):
-            print(f"[{i}] score={r.score}")
-            print(r.text[:200])
-            print()
+        # print("\n========== SPARSE RESULTS ==========")
+        # for i, r in enumerate(sparse_results[:5]):
+        #     print(f"[{i}] score={r.score}")
+        #     print(r.text[:200])
+        #     print()
 
         hybrid_results = self.hybrid.fuse(
             dense_results,
@@ -84,11 +84,11 @@ class RetrieverService:
             self.cfg.top_k_dense * 2
         )
 
-        print("\n========== HYBRID RESULTS ==========")
-        for i, r in enumerate(hybrid_results[:5]):
-            print(f"[{i}] score={r.score}")
-            print(r.text[:200])
-            print()
+        # print("\n========== HYBRID RESULTS ==========")
+        # for i, r in enumerate(hybrid_results[:5]):
+        #     print(f"[{i}] score={r.score}")
+        #     print(r.text[:200])
+        #     print()
 
         # Rerank
         final_results = self.reranker.rerank(
@@ -131,13 +131,13 @@ class RetrieverService:
         #             f"No topic matches found for topic='{topic}'. Using fallback results."
         #         )
 
-        print("\n========== RERANKED RESULTS ==========")
-        for i, r in enumerate(final_results[:5]):
-            print(f"[{i}] score={r.score}")
-            print("topic:", r.metadata.get("topic"))
-            print("section:", r.metadata.get("section"))
-            print(r.text[:200])
-            print()
+        # print("\n========== RERANKED RESULTS ==========")
+        # for i, r in enumerate(final_results[:5]):
+        #     print(f"[{i}] score={r.score}")
+        #     print("topic:", r.metadata.get("topic"))
+        #     print("section:", r.metadata.get("section"))
+        #     print(r.text[:200])
+        #     print()
 
         # Section filtering
         if section:

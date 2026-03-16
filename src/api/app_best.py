@@ -14,11 +14,11 @@ load_dotenv()
 logger = setup_logging("API_BEST")
 app = FastAPI(title="Medical RAG API (Best Config)")
 
-# 🔹 Load best config
+# Load best config
 with open("configs/best_config.yaml") as f:
     best_config = yaml.safe_load(f)
 
-# 🔹 Cast numeric params (MLflow saves them as strings)
+# Cast numeric params (MLflow saves them as strings)
 int_keys = ["top_k_dense", "top_k_sparse", "top_k_final"]
 float_keys = ["hybrid_alpha", "temperature", "reranker_boost"]
 
@@ -31,7 +31,7 @@ for k in float_keys:
         best_config[k] = float(best_config[k])
 
 
-# 🔹 Initialize RAG with best config
+# Initialize RAG with best config
 rag_service = RagService(config_override=best_config)
 
 
@@ -59,7 +59,7 @@ def chat(request: ChatRequest):
 
         full_answer = ""
 
-        # 🔴 USE THE RAG PIPELINE
+        # USE THE RAG PIPELINE
         for token in rag_service.stream(request.query):
             full_answer += token
             yield json.dumps({"token": token}) + "\n"

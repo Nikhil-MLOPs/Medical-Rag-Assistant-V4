@@ -129,9 +129,8 @@ class RagService:
         self.chain = RagChain()
         self.rewriter = QueryRewriter()
 
-    # -------------------------------------------------
+
     # Blocking call
-    # -------------------------------------------------
     def ask(self, query: str) -> RagResponse:
 
         full_answer = ""
@@ -141,9 +140,8 @@ class RagService:
 
         return self._finalize_response(query, full_answer)
 
-    # -------------------------------------------------
+
     # Streaming call
-    # -------------------------------------------------
     @traceable(name="rag_stream_pipeline")
     def stream(self, query: str):
 
@@ -153,9 +151,8 @@ class RagService:
         memory_context = ""
         topic = None
 
-        # -------------------------------------------------
+
         # MEMORY + TOPIC DETECTION
-        # -------------------------------------------------
         if self.memory:
 
             memory_context = self.memory.get_context()
@@ -168,14 +165,12 @@ class RagService:
 
             topic = self.memory.get_active_topic()
 
-        # -------------------------------------------------
+
         # INTENT DETECTION
-        # -------------------------------------------------
         section = detect_section(query)
 
-        # -------------------------------------------------
+
         # QUERY REWRITING
-        # -------------------------------------------------
         # history = self.memory.history if self.memory else []
         # rewritten_query = self.rewriter.rewrite(query, history, topic)
         @traceable(name="query_rewrite")
@@ -186,7 +181,6 @@ class RagService:
         rewritten_query = _rewrite()
 
         # BUILD RETRIEVAL QUERY (Improved Follow-up Grounding)
-        # -------------------------------------------------
 
         query_for_retrieval = rewritten_query
 
@@ -210,18 +204,17 @@ class RagService:
             else:
                 query_for_retrieval = rewritten_query
 
-        # DEBUG (optional but useful)
-        print("\n================ RETRIEVAL INPUT ================")
-        print("Original query:", query)
-        print("Rewritten query:", rewritten_query)
-        print("Active topic:", topic)
-        print("Final retrieval query:", query_for_retrieval)
-        print("Section:", section)
-        print("=================================================\n")
+        # DEBUG (useful)
+        # print("\n================ RETRIEVAL INPUT ================")
+        # print("Original query:", query)
+        # print("Rewritten query:", rewritten_query)
+        # print("Active topic:", topic)
+        # print("Final retrieval query:", query_for_retrieval)
+        # print("Section:", section)
+        # print("=================================================\n")
 
-        # -------------------------------------------------
+
         # RETRIEVAL
-        # -------------------------------------------------
         
 
         @traceable(name="retrieval")
@@ -239,9 +232,8 @@ class RagService:
         # store retrieval for final response
         self._last_retrieval = retrieval_response
 
-        # -------------------------------------------------
+
         # PROMPT BUILDING
-        # -------------------------------------------------
         @traceable(name="prompt_building")
         def _build_prompt():
             return self.chain.build_prompt(
@@ -252,9 +244,8 @@ class RagService:
 
         prompt = _build_prompt()
 
-        # -------------------------------------------------
+
         # LLM CALL
-        # -------------------------------------------------
         @traceable(name="llm_generation")
         def _llm_call():
             return self.llm.chat(
@@ -281,9 +272,8 @@ class RagService:
 
         collected = ""
 
-        # -------------------------------------------------
+
         # STREAMING HANDLER
-        # -------------------------------------------------
         if isinstance(response, dict):
 
             token = response["message"]["content"]
@@ -297,15 +287,13 @@ class RagService:
                 collected += token
                 yield token
 
-        # -------------------------------------------------
+
         # MEMORY UPDATE
-        # -------------------------------------------------
         if self.memory:
             self.memory.add(query, collected)
 
-    # -------------------------------------------------
+
     # FINAL STRUCTURED RESPONSE
-    # -------------------------------------------------
     def _finalize_response(self, query: str, answer: str):
 
         retrieval_response = getattr(self, "_last_retrieval", None)

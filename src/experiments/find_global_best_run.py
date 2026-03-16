@@ -9,9 +9,7 @@ OUTPUT_PATH = Path("reports/global_best_run.json")
 
 def main():
 
-    # -----------------------------
     # Load config
-    # -----------------------------
     with open(CONFIG_PATH) as f:
         cfg = yaml.safe_load(f)
 
@@ -23,9 +21,7 @@ def main():
 
     all_runs = []
 
-    # -----------------------------
     # Collect runs from all experiments
-    # -----------------------------
     for exp in experiments:
 
         runs = client.search_runs(
@@ -45,9 +41,7 @@ def main():
         print("No runs with composite_score found.")
         return
 
-    # -----------------------------
     # Find global best run
-    # -----------------------------
     best_entry = max(
         all_runs,
         key=lambda x: x["run"].data.metrics["composite_score"]
@@ -64,9 +58,7 @@ def main():
         "metrics": best_run.data.metrics
     }
 
-    # -----------------------------
     # Print result
-    # -----------------------------
     print("\n🏆 GLOBAL BEST RUN\n")
 
     print("Experiment:", result["experiment_name"])
@@ -77,9 +69,7 @@ def main():
     for k, v in result["params"].items():
         print(f"{k}: {v}")
 
-    # -----------------------------
     # Save result
-    # -----------------------------
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     with open(OUTPUT_PATH, "w") as f:

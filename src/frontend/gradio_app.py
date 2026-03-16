@@ -3,9 +3,9 @@ import requests
 import json
 import uuid
 
-API_URL = "http://127.0.0.1:8000/chat"
+API_URL = "http://rag-api:8001/chat"
 
-# --- THEME SETUP ---
+# THEME SETUP
 custom_theme = gr.themes.Soft(
     primary_hue="cyan",
     secondary_hue="blue",
@@ -20,7 +20,7 @@ custom_theme = gr.themes.Soft(
     input_background_fill="*neutral_800",
 )
 
-# --- CSS ---
+# CSS
 custom_css = """
 input, textarea {
     color: #ffffff !important;
@@ -92,7 +92,7 @@ def chat_with_backend(message, history, session_id):
 
                 sources = data.get("sources", [])
 
-                source_block = "\n\n### 📚 Sources:\n"
+                source_block = "\n\n### 📚 Source of Truth:\n"
                 for s in sources:
                     source_block += (
                         f"- [{s['id']}] {s['document']} "
@@ -110,7 +110,7 @@ def chat_with_backend(message, history, session_id):
                 yield final_answer, session_id
 
 
-# --- UI LAYOUT ---
+# UI LAYOUT
 with gr.Blocks() as demo:
 
     session_state = gr.State(None)
