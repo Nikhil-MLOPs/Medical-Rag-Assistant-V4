@@ -122,7 +122,7 @@ with gr.Blocks() as demo:
     gr.HTML("""
         <div style="text-align: center; padding: 20px;">
             <h1 style="color: #22d3ee; font-weight: 800; font-size: 2.5rem; margin-bottom: 0;">
-                ⚕️ Medical-RAG-Assistant-V4
+                ⚕️ Medical-RAG-Assistant-V4 ⚕️
             </h1>
             <p style="color: #94a3b8; font-size: 1.1rem;">
                 Best Configuration Selected via MLflow Experiments
@@ -137,7 +137,7 @@ with gr.Blocks() as demo:
     )
 
     with gr.Accordion(
-        " Project Specs & Architecture",
+        "Project Specs & Architecture",
         open=False,
         elem_id="project-specs",
     ):
