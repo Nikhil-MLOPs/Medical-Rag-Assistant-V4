@@ -1,4 +1,3 @@
-
 # ⚕️ Medical-RAG-Assistant-V4
 
 A **production-grade Retrieval-Augmented Generation (RAG) system** designed for **clinically grounded medical question answering**.
@@ -32,6 +31,24 @@ The system retrieves information **directly from medical textbook PDFs** and gen
 - ✔ **Gradio UI** for interactive chat
 - ✔ **Dockerized deployment**
 
+
+# 📊 RAG Experiment Improvement Report
+
+Comparison between **Base Configuration** and **Best Configuration**.
+
+## Metric Comparison
+```
+| Metric | Base | Best | Change |
+|------|------|------|------|
+| answer_relevance | 0.482 | 0.714 | ↑ 48.09% |
+| latency_score | 0.000 | 0.000 | Base=0 |
+| latency | 33.784 | 21.261 | ↓ 37.07% |
+| composite_score | 3.594 | 4.670 | ↑ 29.91% |
+| faithfulness | 0.722 | 0.898 | ↑ 24.36% |
+| recall | 0.800 | 1.000 | ↑ 25.00% |
+| citation_coverage | 0.800 | 1.000 | ↑ 25.00% |
+| precision | 0.333 | 0.467 | ↑ 40.00% |
+```
 ---
 
 ## 🧠 System Architecture
